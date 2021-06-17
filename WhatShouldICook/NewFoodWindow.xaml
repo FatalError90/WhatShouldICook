@@ -1,0 +1,31 @@
+﻿<Window x:Class="WhatShouldICook.NewFoodWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WhatShouldICook"
+        mc:Ignorable="d"
+        Title="NewFoodWindow" Height="400" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Column="1" x:Name="dglist" FontSize="15"/>
+        <StackPanel Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
+            <ComboBox Grid.Row="1" Grid.Column="0" Margin="5" Padding="5" Width="100" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontFamily="monotype corsiva" FontSize="15">
+                <ComboBoxItem Content="levesek" IsSelected="True"  x:Name="egy"/>
+                <ComboBoxItem Content="második" x:Name="ketto"/>
+                <ComboBoxItem Content="vacsi"  x:Name="harom"/>
+            </ComboBox>
+            <TextBox Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 90 0 15" />
+            <Button Content="Mentés" Width="60" Height="40" />
+        </StackPanel>
+    </Grid>
+</Window>
