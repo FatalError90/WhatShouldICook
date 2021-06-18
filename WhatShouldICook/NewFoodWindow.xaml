@@ -11,7 +11,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="1" x:Name="dglist" FontSize="15"/>
+        <DataGrid Grid.Column="1" x:Name="dgList" FontSize="15"/>
         <StackPanel Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -20,12 +20,22 @@
                 </Grid.RowDefinitions>
             </Grid>
             <ComboBox Grid.Row="1" Grid.Column="0" Margin="5" Padding="5" Width="100" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontFamily="monotype corsiva" FontSize="15">
-                <ComboBoxItem Content="levesek" IsSelected="True"  x:Name="egy"/>
-                <ComboBoxItem Content="második" x:Name="ketto"/>
-                <ComboBoxItem Content="vacsi"  x:Name="harom"/>
+                <ComboBoxItem Content="levesek" IsSelected="True"  x:Name="comboBoxItemSoups"/>
+                <ComboBoxItem Content="második" x:Name="comboBoxItemMainDishes"/>
+                <ComboBoxItem Content="vacsi"  x:Name="comboBoxItemDinners"/>
             </ComboBox>
-            <TextBox Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 90 0 15" />
-            <Button Content="Mentés" Width="60" Height="40" />
+            <TextBox Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 90 0 15" x:Name="tbInputText"/>
+            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 50 0 0">
+                <DockPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="15 0 0 0"/>
+                    </Style>
+                </DockPanel.Resources>
+                <Button Content="Mentés" Width="70" Height="40" x:Name="btnUpdateDataBase" />
+                <Button Content="Módosítás" Width="70" Height="40" x:Name="btnModifyDataBase"/>
+                <Button Content="Törlés" Width="70" Height="40" x:Name="btnDeleteDataBaseItem"/>
+            </DockPanel>
         </StackPanel>
+        
     </Grid>
 </Window>

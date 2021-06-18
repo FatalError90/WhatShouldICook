@@ -54,8 +54,8 @@
         </StackPanel>
 
         <DockPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 30" >
-            <Button Content="Mit főzzek?" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" Margin="0 0 40 0"  x:Name="btnWhatShouldICook"/>
-            <Button Content="Nyomtatatás" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" Margin="0 0 40 0" x:Name="btnPrint" />
+            <Button Content="Mit főzzek?" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" Margin="0 0 40 0"  x:Name="btnWhatShouldICook" Click="btnWhatShouldICook_Click"/>
+            <Button Content="Nyomtatatás" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" Margin="0 0 40 0" x:Name="btnPrint" Click="btnPrint_Click"/>
             <Button Content="Új ételek" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" x:Name="btnNewFoods" Click="btnNewFoods_Click"/>
         </DockPanel>
     </Grid>
