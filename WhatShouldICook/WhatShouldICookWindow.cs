@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace WhatShouldICook
 {
@@ -22,6 +24,7 @@ namespace WhatShouldICook
             List<string> soups = WhatShouldICook(Soups(), 3);
             List<string> mainDishes = WhatShouldICook(MainDishes(), 3);
             List<string> dinners = WhatShouldICook(Dinners(), 6);
+            
 
             ShowData(lbSoup1, soups, 0);
             ShowData(lbSoup2, soups, 1);
@@ -38,8 +41,68 @@ namespace WhatShouldICook
             ShowData(lbDinner5, dinners, 4);
             ShowData(lbDinner6, dinners, 5);
 
+            
+            ellenorzes();
         }
 
+        private void hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
+        void ellenorzes()
+        {
+            List<string> leves = new List<string>();
+            List<string> link = new List<string>();
+            
+
+            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
+
+            leves = (from item in dc.Soups
+                     select item.Soup1.ToString()).ToList();
+            link = (from item in dc.Soups
+                    select item.Link.ToString()).ToList();
+            listak(leves, link, 3);
+
+        }
+
+        void listak (List<string> kaja, List<string> link, int mennyi)
+        {
+            Random rnd = new Random();
+
+            List<string> sorsoltkaja = new List<string>();
+            List<string> sorsoltlink = new List<string>();
+
+            int index = 0;
+
+            while (index != mennyi)
+            {
+                bool isGood = false;
+                int IndexOfItems = rnd.Next(0, kaja.Count);
+                string raffleMeal = kaja[IndexOfItems];
+                string Link = link[IndexOfItems];
+
+                if (!sorsoltkaja.Contains(raffleMeal))
+                {
+                    isGood = true;
+
+                    if (isGood)
+                    {
+                        sorsoltkaja.Add(raffleMeal);
+                        sorsoltlink.Add(Link);
+                        index++;
+                    }
+                }
+                else isGood = false;
+            }
+
+            lbSoup1.Content = sorsoltkaja[0];
+            hyperlinkSoup1.NavigateUri = new Uri(sorsoltlink[0]);
+            lbSoup2.Content = sorsoltkaja[1];
+            hyperlinkSoup2.NavigateUri = new Uri(sorsoltlink[1]);
+            lbSoup3.Content = sorsoltkaja[2];
+            hyperlinkSoup3.NavigateUri = new Uri(sorsoltlink[2]);
+        }
         private void btnNewFoods_Click(object sender, RoutedEventArgs e)
         {
             NewFoodWindow newFoodWindow = new NewFoodWindow();
@@ -79,16 +142,15 @@ namespace WhatShouldICook
                 if (!listOfMeals.Contains(raffleMeal))
                 {
                     isGood = true;
+
+                    if (isGood)
+                    {
+                        listOfMeals.Add(raffleMeal);
+                        index++;
+                    }
                 }
                 else isGood = false;
-
-                if (isGood)
-                {
-                    listOfMeals.Add(raffleMeal);
-                    index++;
-                }
             }
-
             return listOfMeals;
         }
 
