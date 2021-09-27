@@ -106,6 +106,8 @@ namespace WhatShouldICook
 		
 		private string _Dinner1;
 		
+		private string _Link;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -114,6 +116,8 @@ namespace WhatShouldICook
     partial void OnIDChanged();
     partial void OnDinner1Changing(string value);
     partial void OnDinner1Changed();
+    partial void OnLinkChanging(string value);
+    partial void OnLinkChanged();
     #endregion
 		
 		public Dinner()
@@ -157,6 +161,26 @@ namespace WhatShouldICook
 					this._Dinner1 = value;
 					this.SendPropertyChanged("Dinner1");
 					this.OnDinner1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Link", DbType="NVarChar(50)")]
+		public string Link
+		{
+			get
+			{
+				return this._Link;
+			}
+			set
+			{
+				if ((this._Link != value))
+				{
+					this.OnLinkChanging(value);
+					this.SendPropertyChanging();
+					this._Link = value;
+					this.SendPropertyChanged("Link");
+					this.OnLinkChanged();
 				}
 			}
 		}
@@ -302,6 +326,8 @@ namespace WhatShouldICook
 		
 		private string _MainDish;
 		
+		private string _Link;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -310,6 +336,8 @@ namespace WhatShouldICook
     partial void OnIDChanged();
     partial void OnMainDishChanging(string value);
     partial void OnMainDishChanged();
+    partial void OnLinkChanging(string value);
+    partial void OnLinkChanged();
     #endregion
 		
 		public MainDishe()
@@ -353,6 +381,26 @@ namespace WhatShouldICook
 					this._MainDish = value;
 					this.SendPropertyChanged("MainDish");
 					this.OnMainDishChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Link", DbType="NVarChar(MAX)")]
+		public string Link
+		{
+			get
+			{
+				return this._Link;
+			}
+			set
+			{
+				if ((this._Link != value))
+				{
+					this.OnLinkChanging(value);
+					this.SendPropertyChanging();
+					this._Link = value;
+					this.SendPropertyChanged("Link");
+					this.OnLinkChanged();
 				}
 			}
 		}
