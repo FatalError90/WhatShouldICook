@@ -32,9 +32,13 @@ namespace WhatShouldICook
             this.Close();
         }
 
-        private void dgList_Loaded(object sender, RoutedEventArgs e)
+        private void dgList_Loaded(object sender, RoutedEventArgs e) // DataGrid betöltése az adatbázisból
         {
-            Load();   
+            DataBaseHandler dataBaseHandler = new DataBaseHandler();
+
+            dataBaseHandler.Load(dgList, comboBoxItemSoups, comboBoxItemMainDishes);
+            dataBaseHandler.Load(dgList, comboBoxItemSoups, comboBoxItemMainDishes);
+            dataBaseHandler.Load(dgList, comboBoxItemSoups, comboBoxItemMainDishes);  
         }
 
         private void btnUpdateDataBase_Click(object sender, RoutedEventArgs e)

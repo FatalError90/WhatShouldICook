@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -24,13 +22,13 @@ namespace WhatShouldICook
 
         private void btnWhatShouldICook_Click(object sender, RoutedEventArgs e)
         {
-
-            List<string> soups = Soups();
-            List<string> linkOfSoups = LinksOfSoups();
-            List<string> mainDishes = MainDishes();
-            List<string> linkOfMainDishes = LinksOfMainDishes();
-            List<string> dinners = Dinners();
-            List<string> linkOfDinners = LinksOfDinners();
+            DataBaseHandler dbHandler = new DataBaseHandler();
+            List<string> soups = dbHandler.Soups();
+            List<string> linkOfSoups = dbHandler.LinksOfSoups();
+            List<string> mainDishes = dbHandler.MainDishes();
+            List<string> linkOfMainDishes = dbHandler.LinksOfMainDishes();
+            List<string> dinners = dbHandler.Dinners();
+            List<string> linkOfDinners = dbHandler.LinksOfDinners();
 
             WhatSoupShouldICook(soups, linkOfSoups, 3);
             WhatLunchhouldICook(mainDishes, linkOfMainDishes, 3);
@@ -186,78 +184,5 @@ namespace WhatShouldICook
             }
         }
 
-        #region DB kiolvasás
-        public static List<string> Soups()
-        {
-
-            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
-
-            List<string> soupsList = (from item in dc.Soups
-                                      select item.Soup1.ToString()).ToList();
-
-            return soupsList;
-        }
-        public static List<string> LinksOfSoups()
-        {
-
-            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
-
-            List<string> linkOfSoups = (from item in dc.Soups
-                                      select item.Link.ToString()).ToList();
-
-            return linkOfSoups;
-        }
-        public static List<string> MainDishes()
-        {
-
-            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
-
-            List<string> mainDishesList = (from item in dc.MainDishes
-                                           select item.MainDish.ToString()).ToList();
-
-            return mainDishesList;
-        }
-        public static List<string> LinksOfMainDishes()
-        {
-
-            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
-
-            List<string> linkOfMainsDishes = (from item in dc.MainDishes
-                                        select item.Link.ToString()).ToList();
-
-            return linkOfMainsDishes;
-        }
-        public static List<string> Dinners()
-        {
-
-            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
-
-            try
-            {
-                List<string> dinnersList = (from item in dc.Dinners
-                                            select item.Dinner1.ToString()).ToList();
-
-                return dinnersList;
-            }
-            catch (Exception)
-            {
-
-                MessageBox.Show("Hiba a vacsorák kiolvasása során");
-                return null;
-            }
-
-        }
-        public static List<string> LinksOfDinners()
-        {
-
-            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
-
-            List<string> linkOfDinners = (from item in dc.Dinners
-                                              select item.Link.ToString()).ToList();
-
-            return linkOfDinners;
-        }
-
-        #endregion
     }
 }
