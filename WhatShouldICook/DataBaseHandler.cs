@@ -80,11 +80,11 @@ namespace WhatShouldICook
                 return null;
             }
         }
-        public void Load (DataGrid dataGrid, ComboBoxItem soup, ComboBoxItem mainDish) // DataGrid betöltése az adatbázisból
+        public void Load (DataGrid dataGrid, ComboBoxItem soupItems, ComboBoxItem mainDishItems) // DataGrid betöltése az adatbázisból
         {
             try
             {
-                if (soup.IsSelected)
+                if (soupItems.IsSelected)
                 {
                     var SeleceAll =
                         from all in _dc.GetTable<Soup>()
@@ -92,7 +92,7 @@ namespace WhatShouldICook
 
                     dataGrid.ItemsSource = SeleceAll;
                 }
-                else if(mainDish.IsSelected)
+                else if(mainDishItems.IsSelected)
                 {
                     var SeleceAll =
                         from all in _dc.GetTable<MainDishe>()
@@ -117,10 +117,176 @@ namespace WhatShouldICook
             }
         }
 
-        public void UpdateDataBase()
+        public void UpdateDatabase(TextBox textBox, ComboBoxItem soupItems, ComboBoxItem mainDishItems, DataGrid dataGrid) // Új ételek és linkek hozzáadása
         {
+            try
+            {
+                List<string> list;
+                
+                if (soupItems.IsSelected)
+                {
+                    Soup soup = new Soup();
+                    soup.Soup1 = textBox.Text;
+                    list = Soups();
 
+                    if (list.Contains(textBox.Text))
+                    {
+                        MessageBox.Show("Az adatbázis már tartalmazza ezt a levest");
+                        textBox.Focus();
+                    }
+                    else
+                    {
+                        _dc.Soups.InsertOnSubmit(soup);
+                        _dc.SubmitChanges();
+                        Load(dataGrid, soupItems, mainDishItems);
+                        textBox.Text = "";
+                        textBox.Focus();
+                    }
+                }
+                else if (mainDishItems.IsSelected)
+                {
+                    MainDishe mainDish =new MainDishe();
+                    mainDish.MainDish = textBox.Text;
+                    list = MainDishes();
+
+                    if (list.Contains(textBox.Text))
+                    {
+                        MessageBox.Show("Az adatbázis már tartalmazza ezt a másodikat");
+                        textBox.Focus();
+                    }
+                    else
+                    {
+                        _dc.MainDishes.InsertOnSubmit(mainDish);
+                        _dc.SubmitChanges();
+                        Load(dataGrid, soupItems, mainDishItems);
+                        textBox.Text = "";
+                        textBox.Focus();
+                    }
+                }
+                else
+                {
+                    Dinner dinner = new Dinner();
+                    dinner.Dinner1 = textBox.Text;
+                    list = Dinners();
+
+                    if (list.Contains(textBox.Text))
+                    {
+                        MessageBox.Show("Az adatbázis már tartalmazza ezt a vacsorát");
+                        textBox.Focus();
+                    }
+                    else
+                    {
+                        _dc.Dinners.InsertOnSubmit(dinner);
+                        _dc.SubmitChanges();
+                        Load(dataGrid, soupItems, mainDishItems);
+                        textBox.Text = "";
+                        textBox.Focus();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Nem sikerült kapcsolódni az adatbázishoz");
+            }
         }
+        public void ModifyDatabase(TextBox textBox, ComboBoxItem soupItems, ComboBoxItem mainDishItems, DataGrid dataGrid, int id) // Új ételek és linkek módosítása
+        {
+            try
+            {
+                if (soupItems.IsSelected)
+                {
+                    Soup soups = _dc.Soups.FirstOrDefault(soup => soup.ID.Equals(id));
+                    soups.Soup1 = textBox.Text.ToString();
+                    _dc.SubmitChanges();
+                    Load(dataGrid, soupItems, mainDishItems);
+                    textBox.Text = "";
+                    textBox.Focus();
+                }
+                else if (mainDishItems.IsSelected)
+                {
+                    MainDishe dishes = _dc.MainDishes.FirstOrDefault(maindish => maindish.ID.Equals(id));
+                    dishes.MainDish = textBox.Text.ToString();
+                    _dc.SubmitChanges();
+                    Load(dataGrid, soupItems, mainDishItems);
+                    textBox.Text = "";
+                    textBox.Focus();
+                }
+                else
+                {
+                    Dinner dinner = _dc.Dinners.FirstOrDefault(dinners => dinners.ID.Equals(id));
+                    dinner.Dinner1 = textBox.Text.ToString();
+                    _dc.SubmitChanges();
+                    Load(dataGrid, soupItems, mainDishItems);
+                    textBox.Text = "";
+                    textBox.Focus();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Nem sikerült kapcsolódni az adatbázishoz");
+            }
+            
+        }
+        public void DeleteFromDatabase(TextBox textBox, ComboBoxItem soupItems, ComboBoxItem mainDishItems, DataGrid dataGrid, int id) // Ételek és linkjei törlése
+        {
+            try
+            {
+                if (soupItems.IsSelected)
+                {
+                    var deleteItem = from soup in _dc.Soups
+                                     where soup.ID == id
+                                     select soup;
 
+                    foreach (var item in deleteItem)
+                    {
+                        _dc.Soups.DeleteOnSubmit(item);
+                    }
+
+                    _dc.SubmitChanges();
+
+                    Load(dataGrid, soupItems, mainDishItems);
+                    textBox.Text = "";
+                    textBox.Focus();
+                }
+                else if (mainDishItems.IsSelected)
+                {
+                    var deleteItem = from MainDishe in _dc.MainDishes
+                                     where MainDishe.ID == id
+                                     select MainDishe;
+
+                    foreach (var item in deleteItem)
+                    {
+                        _dc.MainDishes.DeleteOnSubmit(item);
+                    }
+
+                    _dc.SubmitChanges();
+
+                    Load(dataGrid, soupItems, mainDishItems);
+                    textBox.Text = "";
+                    textBox.Focus();
+                }
+                else
+                {
+                    var deleteItem = from Dinner in _dc.Dinners
+                                     where Dinner.ID == id
+                                     select Dinner;
+
+                    foreach (var item in deleteItem)
+                    {
+                        _dc.Dinners.DeleteOnSubmit(item);
+                    }
+
+                    _dc.SubmitChanges();
+
+                    Load(dataGrid, soupItems, mainDishItems);
+                    textBox.Text = "";
+                    textBox.Focus();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Nem sikerült kapcsolódni az adatbázishoz");
+            }
+        }
     }
 }

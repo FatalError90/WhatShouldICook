@@ -25,18 +25,20 @@ namespace WhatShouldICook
             DataBaseHandler dbHandler = new DataBaseHandler();
             List<string> soups = dbHandler.Soups();
             List<string> linkOfSoups = dbHandler.LinksOfSoups();
+
             List<string> mainDishes = dbHandler.MainDishes();
             List<string> linkOfMainDishes = dbHandler.LinksOfMainDishes();
+
             List<string> dinners = dbHandler.Dinners();
             List<string> linkOfDinners = dbHandler.LinksOfDinners();
 
             WhatSoupShouldICook(soups, linkOfSoups, 3);
-            WhatLunchhouldICook(mainDishes, linkOfMainDishes, 3);
+            WhatLunchShouldICook(mainDishes, linkOfMainDishes, 3);
             WhatDinnerShouldICook(dinners, linkOfDinners, 6);
 
         }
 
-        public void WhatSoupShouldICook(List<string> ListOfSoups, List<string> listOfSoupLinks, int howMany)
+        private void WhatSoupShouldICook(List<string> ListOfSoups, List<string> listOfSoupLinks, int howMany)
         {
             Random rnd = new Random();
 
@@ -71,7 +73,8 @@ namespace WhatShouldICook
             ShowData(lbSoup3, hyperlinkSoup3, listOfRaffleSoups, listOfRaffleSoupsLinks, 2);
 
         }
-        public void WhatLunchhouldICook(List<string> ListOfDinners, List<string> listOfDinnersLinks, int howMany)
+
+        private void WhatLunchShouldICook(List<string> ListOfDinners, List<string> listOfDinnersLinks, int howMany)
         {
             Random rnd = new Random();
 
@@ -106,7 +109,8 @@ namespace WhatShouldICook
             ShowData(lbMainDish3, hyperlinkMainDish3, listOfRaffleDinners, listOfRaffleDinnersLinks, 2);
 
         }
-        public void WhatDinnerShouldICook(List<string> ListOfDinners, List<string> listOfDinnersLinks, int howMany)
+
+        private void WhatDinnerShouldICook(List<string> ListOfDinners, List<string> listOfDinnersLinks, int howMany)
         {
             Random rnd = new Random();
 
@@ -143,6 +147,7 @@ namespace WhatShouldICook
             ShowData(lbDinner5, hyperlinkDinner5, listOfRaffleDinners, listOfRaffleDinnersLinks, 4);
             ShowData(lbDinner6, hyperlinkDinner6, listOfRaffleDinners, listOfRaffleDinnersLinks, 5);
         }
+
         private void hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             try
@@ -156,26 +161,31 @@ namespace WhatShouldICook
             }
             
         } 
+
         private void btnNewFoods_Click(object sender, RoutedEventArgs e)
         {
             NewFoodWindow newFoodWindow = new NewFoodWindow();
             newFoodWindow.Show();
             this.Hide();
         }
+
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
             Print();
         }
-        private void Window_Closed(object sender, EventArgs e)
+
+        private void Window_Closed(object sender, EventArgs e) // Kilépés az alkalmazásból 
         {
             Environment.Exit(0);
         }
-        void ShowData(Label label,  Hyperlink link, List<string> listOfFoods, List<string> listOfLinks, int indexOfList)
+
+        private void ShowData(Label label,  Hyperlink link, List<string> listOfFoods, List<string> listOfLinks, int indexOfList) // Kisorsolt ételek és a hozzá tartozó linkek kiiratása
         {
             label.Content = listOfFoods[indexOfList];
             link.NavigateUri = new Uri(listOfLinks[indexOfList]);
         }
-        void Print()
+
+        private void Print() // A kisorsolt ételek kinyomtatása
         {
             PrintDialog printDialog = new PrintDialog();
             if (printDialog.ShowDialog().GetValueOrDefault(false))
@@ -183,6 +193,7 @@ namespace WhatShouldICook
                 printDialog.PrintVisual(this, this.Title);
             }
         }
+
 
     }
 }
