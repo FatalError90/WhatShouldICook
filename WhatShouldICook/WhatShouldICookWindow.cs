@@ -20,7 +20,7 @@ namespace WhatShouldICook
             InitializeComponent();
         }
 
-        private void btnWhatShouldICook_Click(object sender, RoutedEventArgs e)
+        private void BTN_WhatShouldICook_Click(object sender, RoutedEventArgs e)
         {
             DataBaseHandler dbHandler = new DataBaseHandler();
             List<string> soups = dbHandler.Soups();
@@ -49,23 +49,17 @@ namespace WhatShouldICook
 
             while (index != howMany)
             {
-                bool isGood = false;
                 int indexOfItem = rnd.Next(0, ListOfSoups.Count);
                 string raffleSoups = ListOfSoups[indexOfItem];
                 string link = listOfSoupLinks[indexOfItem];
 
                 if (!listOfRaffleSoups.Contains(raffleSoups))
                 {
-                    isGood = true;
-
-                    if (isGood)
-                    {
-                        listOfRaffleSoups.Add(raffleSoups);
-                        listOfRaffleSoupsLinks.Add(link);
-                        index++;
-                    }
+                    listOfRaffleSoups.Add(raffleSoups);
+                    listOfRaffleSoupsLinks.Add(link);
+                    index++;
+                    
                 }
-                else isGood = false;
             }
             
             ShowData(lbSoup1, hyperlinkSoup1, listOfRaffleSoups, listOfRaffleSoupsLinks, 0);
@@ -85,23 +79,17 @@ namespace WhatShouldICook
 
             while (index != howMany)
             {
-                bool isGood = false;
                 int indexOfItem = rnd.Next(0, ListOfDinners.Count);
                 string raffleSoup = ListOfDinners[indexOfItem];
                 string link = listOfDinnersLinks[indexOfItem];
 
                 if (!listOfRaffleDinners.Contains(raffleSoup))
                 {
-                    isGood = true;
-
-                    if (isGood)
-                    {
+  
                         listOfRaffleDinners.Add(raffleSoup);
                         listOfRaffleDinnersLinks.Add(link);
                         index++;
-                    }
                 }
-                else isGood = false;
             }
 
             ShowData(lbMainDish1, hyperlinkMainDish1, listOfRaffleDinners, listOfRaffleDinnersLinks, 0);
@@ -121,23 +109,18 @@ namespace WhatShouldICook
 
             while (index != howMany)
             {
-                bool isGood = false;
                 int indexOfItem = rnd.Next(0, ListOfDinners.Count);
                 string raffleMeal = ListOfDinners[indexOfItem];
                 string link = listOfDinnersLinks[indexOfItem];
 
                 if (!listOfRaffleDinners.Contains(raffleMeal))
                 {
-                    isGood = true;
 
-                    if (isGood)
-                    {
                         listOfRaffleDinners.Add(raffleMeal);
                         listOfRaffleDinnersLinks.Add(link);
                         index++;
-                    }
-                }
-                else isGood = false;
+                 }
+
             }
 
             ShowData(lbDinner1, hyperlinkDinner1, listOfRaffleDinners, listOfRaffleDinnersLinks, 0);
@@ -148,7 +131,7 @@ namespace WhatShouldICook
             ShowData(lbDinner6, hyperlinkDinner6, listOfRaffleDinners, listOfRaffleDinnersLinks, 5);
         }
 
-        private void hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             try
             {
@@ -157,19 +140,21 @@ namespace WhatShouldICook
             }
             catch (Exception)
             {
-                
+                MessageBox.Show("Nem sikerült betölteni a linket");
             }
             
         } 
 
-        private void btnNewFoods_Click(object sender, RoutedEventArgs e)
+        private void BTN_NewFoods_Click(object sender, RoutedEventArgs e)
         {
+            
             NewFoodWindow newFoodWindow = new NewFoodWindow();
+            //newFoodWindow.tbInputText.SelectedText = "text";
             newFoodWindow.Show();
             this.Hide();
         }
 
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        private void BTN_Print_Click(object sender, RoutedEventArgs e)
         {
             Print();
         }

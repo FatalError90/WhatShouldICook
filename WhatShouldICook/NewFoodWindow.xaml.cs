@@ -19,7 +19,7 @@ namespace WhatShouldICook
     /// </summary>
     public partial class NewFoodWindow : Window
     {
-        int id;
+        Nullable<int> id;
         public NewFoodWindow()
         {
             InitializeComponent();
@@ -32,39 +32,49 @@ namespace WhatShouldICook
             this.Close();
         }
 
-        private void dgList_Loaded(object sender, RoutedEventArgs e) // DataGrid betöltése az adatbázisból
+        private void DG_List_Loaded(object sender, RoutedEventArgs e) // DataGrid betöltése az adatbázisból
         {
             DataBaseHandler dataBaseHandler = new DataBaseHandler();
-            dataBaseHandler.Load(dgList, comboBoxItemSoups, comboBoxItemMainDishes);
+            dataBaseHandler.Load(dgList, comboBoxItemSoups, comboBoxItemMainDishes, tbInputText, tbLinkText);
         }
 
-        private void btnUpdateDataBase_Click(object sender, RoutedEventArgs e) // Új ételek és linkek hozzáadása
+        private void BTN_UpdateDataBase_Click(object sender, RoutedEventArgs e) // Új ételek és linkek hozzáadása
         {   
-            if (tbInputText.Text != "")
+            if (tbInputText.Text != string.Empty & tbLinkText.Text != string.Empty)
             {
                 DataBaseHandler dataBaseHandler = new DataBaseHandler();
-                dataBaseHandler.UpdateDatabase(tbInputText, comboBoxItemSoups, comboBoxItemMainDishes, dgList);
+                dataBaseHandler.UpdateDatabase(tbInputText, tbLinkText, comboBoxItemSoups, comboBoxItemMainDishes, dgList);
+                id = null;
             }
-            else MessageBox.Show("A mező nem lehet üres"); tbInputText.Focus();
+            else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();
+            
+            
         }
 
-        private void btnModifyDataBase_Click(object sender, RoutedEventArgs e)
+        private void BTN_ModifyDataBase_Click(object sender, RoutedEventArgs e)
         {   
-            if (tbInputText.Text != "")
+            if (tbInputText.Text != string.Empty & tbLinkText.Text != string.Empty)
             {
                 DataBaseHandler dataBaseHandler= new DataBaseHandler();
-                dataBaseHandler.ModifyDatabase(tbInputText, comboBoxItemSoups, comboBoxItemMainDishes, dgList, id);
+                dataBaseHandler.ModifyDatabase(tbInputText,tbLinkText, comboBoxItemSoups, comboBoxItemMainDishes, dgList, id);
+                id = null;
             }
-            else MessageBox.Show("A mező nem lehet üres"); tbInputText.Focus();
+            else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();
         }
 
-        private void btnDeleteDataBaseItem_Click(object sender, RoutedEventArgs e) // Ételek és linkjei törlése
+        private void BTN_DeleteDataBaseItem_Click(object sender, RoutedEventArgs e) // Ételek és linkjei törlése
         {
-            DataBaseHandler dataBaseHandler = new DataBaseHandler();
-            dataBaseHandler.DeleteFromDatabase(tbInputText, comboBoxItemSoups, comboBoxItemMainDishes, dgList, id);
+            if (tbInputText.Text != string.Empty )//& tbLinkText.Text!= string.Empty)
+            {
+                DataBaseHandler dataBaseHandler = new DataBaseHandler();
+                dataBaseHandler.DeleteFromDatabase(tbInputText, tbLinkText, comboBoxItemSoups, comboBoxItemMainDishes, dgList, id);
+                id = null;
+            }
+            else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();
+            
         }
 
-        private void dgList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DG_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgList.SelectedItem != null)
             {
@@ -72,16 +82,19 @@ namespace WhatShouldICook
                 {
                     id = ((dynamic)dgList.SelectedItem).ID;
                     tbInputText.Text = ((dynamic)dgList.SelectedItem).Soup1;
+                    tbLinkText.Text = ((dynamic)dgList.SelectedItem).Link;
                 }
                 else if (comboBoxItemMainDishes.IsSelected)
                 {
                     id = ((dynamic)dgList.SelectedItem).ID;
                     tbInputText.Text = ((dynamic)dgList.SelectedItem).MainDish;
+                    tbLinkText.Text = ((dynamic)dgList.SelectedItem).Link;
                 }
                 else
                 {
                     id = ((dynamic)dgList.SelectedItem).ID;
                     tbInputText.Text = ((dynamic)dgList.SelectedItem).Dinner1;
+                    tbLinkText.Text = ((dynamic)dgList.SelectedItem).Link;
                 }
             }
         }

@@ -38,64 +38,64 @@
                 <Label Content="6. nap" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="6" Grid.Row="0" BorderBrush="Black" BorderThickness="1" FontSize="30" FontFamily="monotype corsiva" Width="150" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
                 <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Width="300" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkSoup1" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkSoup1" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbSoup1" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="300" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Width="300" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkSoup2" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkSoup2" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbSoup2" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="300" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkSoup3" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkSoup3" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbSoup3"  BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="300" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </Hyperlink>
                 </TextBlock>
 
                 <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkMainDish1" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkMainDish1" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbMainDish1" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="300" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkMainDish2" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkMainDish2" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbMainDish2" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="300" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkMainDish3" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkMainDish3" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbMainDish3" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="300" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </Hyperlink>
                 </TextBlock>
 
                 <TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner1" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner1" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbDinner1" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="175" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner2" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner2" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbDinner2" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="175" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner3" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner3" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbDinner3" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="175" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="3" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner4" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner4" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbDinner4" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="175" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="3" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner5" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner5" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbDinner5" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="175" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="3" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner6" RequestNavigate="hyperlink_RequestNavigate">
+                    <Hyperlink TextDecorations="None" x:Name="hyperlinkDinner6" RequestNavigate="Hyperlink_RequestNavigate">
                         <Label x:Name="lbDinner6" BorderBrush="Black" BorderThickness="1" FontSize="20" FontFamily="monotype corsiva" Width="175" Height="50" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     </Hyperlink>
                 </TextBlock>
@@ -103,9 +103,9 @@
         </StackPanel>
 
         <DockPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 30" >
-            <Button Content="Mit főzzek?" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" Margin="0 0 40 0"  x:Name="btnWhatShouldICook" Click="btnWhatShouldICook_Click"/>
-            <Button Content="Nyomtatatás" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" Margin="0 0 40 0" x:Name="btnPrint" Click="btnPrint_Click"/>
-            <Button Content="Új ételek" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" x:Name="btnNewFoods" Click="btnNewFoods_Click"/>
+            <Button Content="Mit főzzek?" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" Margin="0 0 40 0"  x:Name="btnWhatShouldICook" Click="BTN_WhatShouldICook_Click"/>
+            <Button Content="Nyomtatatás" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" Margin="0 0 40 0" x:Name="btnPrint" Click="BTN_Print_Click"/>
+            <Button Content="Új ételek" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="150" FontFamily="Times New Roman" FontSize="25" FontWeight="Black" x:Name="btnNewFoods" Click="BTN_NewFoods_Click"/>
         </DockPanel>
         
     </Grid>
