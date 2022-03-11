@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace WhatShouldICook
 {
@@ -19,62 +10,57 @@ namespace WhatShouldICook
     /// </summary>
     public partial class NewFoodWindow : Window
     {
-        Nullable<int> id;
+        Nullable<int> id; //ID kezelése érdekében null értékkel ellátható int változó 
         public NewFoodWindow()
         {
             InitializeComponent();
         }
 
-        private void Window_Closed(object sender, EventArgs e) // Visszalépés a főablakra. 
-        {
-            WhatShouldICookWindow whatShouldICookWindow = new WhatShouldICookWindow();
-            whatShouldICookWindow.Show();
-            this.Close();
-        }
-
-        private void DG_List_Loaded(object sender, RoutedEventArgs e) // DataGrid betöltése az adatbázisból
-        {
-            DataBaseHandler dataBaseHandler = new DataBaseHandler();
-            dataBaseHandler.Load(dgList, comboBoxItemSoups, comboBoxItemMainDishes, tbInputText, tbLinkText);
-        }
-
+        #region Gombok hívása
         private void BTN_UpdateDataBase_Click(object sender, RoutedEventArgs e) // Új ételek és linkek hozzáadása
         {   
             if (tbInputText.Text != string.Empty & tbLinkText.Text != string.Empty)
             {
                 DataBaseHandler dataBaseHandler = new DataBaseHandler();
                 dataBaseHandler.UpdateDatabase(tbInputText, tbLinkText, comboBoxItemSoups, comboBoxItemMainDishes, dgList);
-                id = null;
+
+                id = null; //ID beállítása, hogy nullázódjon. Különben megjegyzi és mást törölhet, mint amit szereznénk. 
             }
             else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();
             
             
         }
-
-        private void BTN_ModifyDataBase_Click(object sender, RoutedEventArgs e)
+        private void BTN_ModifyDataBase_Click(object sender, RoutedEventArgs e) // Meglévő ételek és linkek módosítása
         {   
             if (tbInputText.Text != string.Empty & tbLinkText.Text != string.Empty)
             {
                 DataBaseHandler dataBaseHandler= new DataBaseHandler();
                 dataBaseHandler.ModifyDatabase(tbInputText,tbLinkText, comboBoxItemSoups, comboBoxItemMainDishes, dgList, id);
-                id = null;
+
+                id = null; //ID beállítása, hogy nullázódjon. Különben megjegyzi és mást törölhet, mint amit szereznénk.
             }
             else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();
         }
-
         private void BTN_DeleteDataBaseItem_Click(object sender, RoutedEventArgs e) // Ételek és linkjei törlése
         {
-            if (tbInputText.Text != string.Empty )//& tbLinkText.Text!= string.Empty)
+            if (tbInputText.Text != string.Empty & tbLinkText.Text!= string.Empty)
             {
                 DataBaseHandler dataBaseHandler = new DataBaseHandler();
                 dataBaseHandler.DeleteFromDatabase(tbInputText, tbLinkText, comboBoxItemSoups, comboBoxItemMainDishes, dgList, id);
-                id = null;
-            }
-            else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();
-            
-        }
 
-        private void DG_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
+                id = null; //ID beállítása, hogy nullázódjon. Különben megjegyzi és mást törölhet, mint amit szereznénk.
+            }
+            else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();  
+        }
+        #endregion
+
+        #region Datagrid kezelése
+        private void DG_List_Loaded(object sender, RoutedEventArgs e) // DataGrid betöltése az adatbázisból
+        {
+            DataBaseHandler dataBaseHandler = new DataBaseHandler();
+            dataBaseHandler.Load(dgList, comboBoxItemSoups, comboBoxItemMainDishes, tbInputText, tbLinkText);
+        }
+        private void DG_List_SelectionChanged(object sender, SelectionChangedEventArgs e) // DataGrid kijelölésének dinamikus vezérlése és megjelenítése
         {
             if (dgList.SelectedItem != null)
             {
@@ -98,7 +84,14 @@ namespace WhatShouldICook
                 }
             }
         }
+        #endregion
 
+        private void Window_Closed(object sender, EventArgs e) // Visszalépés a főablakra. 
+        {
+            WhatShouldICookWindow whatShouldICookWindow = new WhatShouldICookWindow();
+            whatShouldICookWindow.Show();
+            this.Close();
+        }
     }
 }
 

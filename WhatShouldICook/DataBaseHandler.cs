@@ -11,26 +11,51 @@ namespace WhatShouldICook
 
         private readonly DataClassesLINQDataContext _dc = new DataClassesLINQDataContext();
 
+        #region Táblákból lista
         public List<string> Soups() // Levesek kiolvasása
         {
-            List<string> soupsList = (from item in _dc.Soups
-                                      select item.Soup1).ToList();
+            try
+            {
+                List<string> soupsList = (from item in _dc.Soups
+                                          select item.Soup1).ToList();
 
-            return soupsList;
+                return soupsList;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Hiba a levesek kiolvasása során");
+                return null;
+            }
         }
         public List<string> LinksOfSoups() // Leves linkjeinek a kiolvasása
         {
-            List<string> linkOfSoups = (from item in _dc.Soups
-                                        select item.Link).ToList();
+            try
+            {
+                List<string> linkOfSoups = (from item in _dc.Soups
+                                            select item.Link).ToList();
 
-            return linkOfSoups;
+                return linkOfSoups;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Hiba a levesek linkjeinek kiolvasása során");
+                return null;
+            } 
         }
         public List<string> MainDishes() // Második kiolvasása
         {
-            List<string> mainDishesList = (from item in _dc.MainDishes
-                                           select item.MainDish).ToList();
+            try
+            {
+                List<string> mainDishesList = (from item in _dc.MainDishes
+                                               select item.MainDish).ToList();
 
-            return mainDishesList;
+                return mainDishesList;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Hiba a második linkjeinek kiolvasása során");
+                return null;
+            }
         }
         public List<string> LinksOfMainDishes() // Második linkeinek a kiolvasása
         {
@@ -78,6 +103,9 @@ namespace WhatShouldICook
                 return null;
             }
         }
+        #endregion
+
+        #region Adataok betöltése
         public void Load(DataGrid dataGrid, ComboBoxItem soupItems, ComboBoxItem mainDishItems, TextBox textboxFood, TextBox textboxLink) // DataGrid betöltése az adatbázisból
         {
             try
@@ -85,8 +113,8 @@ namespace WhatShouldICook
                 if (soupItems.IsSelected)
                 {
                     var SeleceAll =
-                        from all in _dc.GetTable<Soup>()
-                        select all;
+                    from all in _dc.GetTable<Soup>()
+                    select all;
 
                     dataGrid.ItemsSource = SeleceAll;
 
@@ -96,16 +124,14 @@ namespace WhatShouldICook
                     }
                     else
                     {
-                        textboxFood.Text = string.Empty; 
-                        textboxLink.Text = string.Empty;
+                        textboxFood.Text = textboxLink.Text = string.Empty;
                     }
                 }
                 else if (mainDishItems.IsSelected)
                 {
-                    
                     var SeleceAll =
-                        from all in _dc.GetTable<MainDishe>()
-                        select all;
+                    from all in _dc.GetTable<MainDishe>()
+                    select all;
 
                     dataGrid.ItemsSource = SeleceAll;
 
@@ -114,22 +140,22 @@ namespace WhatShouldICook
                 else
                 {
                     var SeleceAll =
-                        from all in _dc.GetTable<Dinner>()
-                        select all;
+                    from all in _dc.GetTable<Dinner>()
+                    select all;
 
                     dataGrid.ItemsSource = SeleceAll;
 
                     textboxFood.Text = textboxLink.Text = string.Empty;
                 }
-
-
             }
             catch (Exception)
             {
                 MessageBox.Show("Nem sikerült kapcsolódni az adatbázishoz!");
             }
         }
+        #endregion
 
+        #region Tábla adatok módosítása
         public void UpdateDatabase(TextBox textboxFood, TextBox textboxLink, ComboBoxItem soupItems, ComboBoxItem mainDishItems, DataGrid dataGrid) // Új ételek és linkek hozzáadása
         {
             try
@@ -138,9 +164,6 @@ namespace WhatShouldICook
 
                 if (soupItems.IsSelected)
                 {
-                    //var soup = new Soup() { Soup1=textboxFood.Text}; // VS2022 intelisense javaslata az object initializers használata e helyett://
-                                                                     // Soup soup = new Soup(); soup.Soup1 = textBox.Text;
-                    //var link= new Soup() { Link = textboxLink.Text };
                     list = Soups();
 
                     if (list.Contains(textboxFood.Text))
@@ -150,11 +173,13 @@ namespace WhatShouldICook
                     }
                     else
                     {
-                        var  newSoupAndLink=new Soup() { Soup1= textboxFood.Text, Link=textboxLink.Text }; // VS2022 intelisense javaslata az object initializers használata e helyett://
-                                                                                                           // Soup newSoupAndLink = new Soup(); newSoupAndLink.Soup1 = textBox.Text; newSoupAndLink.Link=textboxLink.Text;
+                        var newSoupAndLink = new Soup() { Soup1 = textboxFood.Text, Link = textboxLink.Text }; // VS2022 intelisense javaslata az object initializers használata e helyett://
+                                                                                                               // Soup newSoupAndLink = new Soup(); newSoupAndLink.Soup1 = textBox.Text; newSoupAndLink.Link=textboxLink.Text;
                         _dc.Soups.InsertOnSubmit(newSoupAndLink);
                         _dc.SubmitChanges();
+
                         Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
+
                         textboxFood.Text = textboxLink.Text = string.Empty;
                         textboxFood.Focus();
                     }
@@ -173,7 +198,9 @@ namespace WhatShouldICook
                         var newMaindishAndLink = new MainDishe() { MainDish = textboxFood.Text, Link = textboxLink.Text };
                         _dc.MainDishes.InsertOnSubmit(newMaindishAndLink);
                         _dc.SubmitChanges();
+
                         Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
+
                         textboxFood.Text = textboxLink.Text = string.Empty;
                         textboxFood.Focus();
                     }
@@ -192,7 +219,9 @@ namespace WhatShouldICook
                         var newDinnerAndLink = new Dinner() { Dinner1 = textboxFood.Text, Link = textboxLink.Text };
                         _dc.Dinners.InsertOnSubmit(newDinnerAndLink);
                         _dc.SubmitChanges();
+
                         Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
+
                         textboxFood.Text = textboxLink.Text = string.Empty;
                         textboxFood.Focus();
                     }
@@ -207,40 +236,82 @@ namespace WhatShouldICook
         {
             try
             {
+                List<string> list;
+
                 if (soupItems.IsSelected)
                 {
-                    Soup soups = _dc.Soups.FirstOrDefault(soup => soup.ID.Equals(id));
-                    soups.Soup1 = textboxFood.Text.ToString();
-                    _dc.SubmitChanges();
-                    Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
-                    textboxFood.Text = textboxLink.Text = string.Empty;
-                    textboxFood.Focus();
+                    list = Soups();
+
+                    if (list.Contains(textboxFood.Text))
+                    {
+                        MessageBox.Show("Az adatbázis már tartalmazza ezt a levest");
+                        textboxFood.Focus();
+                    }
+                    else
+                    {
+                        Soup modifySoupAndLink = _dc.Soups.FirstOrDefault(soup => soup.ID.Equals(id));
+                        
+                        modifySoupAndLink.Soup1 = textboxFood.Text;
+                        modifySoupAndLink.Link = textboxLink.Text;
+                        _dc.SubmitChanges();
+
+                        Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
+
+                        textboxFood.Text = textboxLink.Text = string.Empty;
+                        textboxFood.Focus();
+                    }
                 }
                 else if (mainDishItems.IsSelected)
                 {
-                    MainDishe dishes = _dc.MainDishes.FirstOrDefault(maindish => maindish.ID.Equals(id));
-                    dishes.MainDish = textboxFood.Text.ToString();
-                    _dc.SubmitChanges();
-                    Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
-                    textboxFood.Text = "";
-                    textboxFood.Focus();
+                    list = MainDishes();
+
+                    if (list.Contains(textboxFood.Text))
+                    {
+                        MessageBox.Show("Az adatbázis már tartalmazza ezt a másodikat");
+                        textboxFood.Focus();
+                    }
+                    else
+                    {
+                        MainDishe modifyMainddishAndLink = _dc.MainDishes.FirstOrDefault(maindish => maindish.ID.Equals(id));
+
+                        modifyMainddishAndLink.MainDish = textboxFood.Text;
+                        modifyMainddishAndLink.Link = textboxLink.Text;
+                        _dc.SubmitChanges();
+
+                        Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
+
+                        textboxFood.Text = textboxLink.Text = string.Empty;
+                        textboxFood.Focus();
+                    }
                 }
                 else
                 {
-                    Dinner dinner = _dc.Dinners.FirstOrDefault(dinners => dinners.ID.Equals(id));
-                    dinner.Dinner1 = textboxFood.Text;
-                    dinner.Link=textboxLink.Text;
-                    _dc.SubmitChanges();
-                    Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
-                    textboxFood.Text = textboxLink.Text = string.Empty;
-                    textboxFood.Focus();
+                    list = Dinners();
+
+                    if (list.Contains(textboxFood.Text))
+                    {
+                        MessageBox.Show("Az adatbázis már tartalmazza ezt a vacsorát");
+                        textboxFood.Focus();
+                    }
+                    else
+                    {
+                        Dinner modigyDinnerAndLink = _dc.Dinners.FirstOrDefault(dinners => dinners.ID.Equals(id));
+
+                        modigyDinnerAndLink.Dinner1 = textboxFood.Text;
+                        modigyDinnerAndLink.Link = textboxLink.Text;
+                        _dc.SubmitChanges();
+
+                        Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
+
+                        textboxFood.Text = textboxLink.Text = string.Empty;
+                        textboxFood.Focus();
+                    }
                 }
             }
             catch (Exception)
             {
                 MessageBox.Show("Nem sikerült kapcsolódni az adatbázishoz");
             }
-
         }
         public void DeleteFromDatabase(TextBox textboxFood, TextBox textboxLink, ComboBoxItem soupItems, ComboBoxItem mainDishItems, DataGrid dataGrid, Nullable<int> id) // Ételek és linkjei törlése
         {
@@ -260,9 +331,9 @@ namespace WhatShouldICook
                     _dc.SubmitChanges();
 
                     Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
+
                     textboxFood.Text = textboxLink.Text = string.Empty;
                     textboxFood.Focus();
-                    
                 }
                 else if (mainDishItems.IsSelected)
                 {
@@ -278,6 +349,7 @@ namespace WhatShouldICook
                     _dc.SubmitChanges();
 
                     Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
+
                     textboxFood.Text = textboxLink.Text = string.Empty;
                     textboxFood.Focus();
                 }
@@ -295,6 +367,7 @@ namespace WhatShouldICook
                     _dc.SubmitChanges();
 
                     Load(dataGrid, soupItems, mainDishItems, textboxFood, textboxLink);
+
                     textboxFood.Text = textboxLink.Text = string.Empty;
                     textboxFood.Focus();
                 }
@@ -304,5 +377,6 @@ namespace WhatShouldICook
                 MessageBox.Show("Nem sikerült kapcsolódni az adatbázishoz");
             }
         }
+        #endregion
     }
 }
