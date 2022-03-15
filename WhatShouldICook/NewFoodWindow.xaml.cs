@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace WhatShouldICook
 {
@@ -19,170 +10,57 @@ namespace WhatShouldICook
     /// </summary>
     public partial class NewFoodWindow : Window
     {
-        int id;
+        Nullable<int> id; //ID kezelése érdekében null értékkel ellátható int változó 
         public NewFoodWindow()
         {
             InitializeComponent();
         }
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            WhatShouldICookWindow whatShouldICookWindow = new WhatShouldICookWindow();
-            whatShouldICookWindow.Show();
-            this.Close();
-        }
-
-        private void dgList_Loaded(object sender, RoutedEventArgs e)
-        {
-            Load();   
-        }
-
-        private void btnUpdateDataBase_Click(object sender, RoutedEventArgs e)
-        {
-            DataClassesLINQDataContext dataContext = new DataClassesLINQDataContext();
-            if (tbInputText.Text != "")
+        #region Gombok hívása
+        private void BTN_UpdateDataBase_Click(object sender, RoutedEventArgs e) // Új ételek és linkek hozzáadása
+        {   
+            if (tbInputText.Text != string.Empty & tbLinkText.Text != string.Empty)
             {
-                if (comboBoxItemSoups.IsSelected)
-                {
+                DataBaseHandler dataBaseHandler = new DataBaseHandler();
+                dataBaseHandler.UpdateDatabase(tbInputText, tbLinkText, comboBoxItemSoups, comboBoxItemMainDishes, dgList);
 
-                    Soup soup = new Soup();
-
-                    soup.Soup1 = tbInputText.Text;
-
-                    dataContext.Soups.InsertOnSubmit(soup);
-                    dataContext.SubmitChanges();
-                    tbInputText.Text = "";
-
-                    Load();
-                    
-                }
-                else if (comboBoxItemMainDishes.IsSelected)
-                {
-                    MainDishe mainDishes = new MainDishe();
-
-                    mainDishes.MainDish = tbInputText.Text;
-
-                    dataContext.MainDishes.InsertOnSubmit(mainDishes);
-                    dataContext.SubmitChanges();
-                    tbInputText.Text = "";
-
-                    Load();
-                }
-                else
-                {
-                    Dinner dinner = new Dinner();
-                    dinner.Dinner1 = tbInputText.Text;
-
-                    dataContext.Dinners.InsertOnSubmit(dinner);
-                    dataContext.SubmitChanges();
-                    tbInputText.Text = "";
-
-                    Load();
-                }
+                id = null; //ID beállítása, hogy nullázódjon. Különben megjegyzi és mást törölhet, mint amit szereznénk. 
             }
-            else MessageBox.Show("A mező nem lehet üres"); tbInputText.Focus();
-
-            }
-
-        private void btnModifyDataBase_Click(object sender, RoutedEventArgs e)
-        {
-
-            DataClassesLINQDataContext dataContext = new DataClassesLINQDataContext();
-            if (tbInputText.Text != "")
-            {
-                if (comboBoxItemSoups.IsSelected)
-                {
-                    Soup soups = dataContext.Soups.FirstOrDefault(soup => soup.ID.Equals(id));
-                    soups.Soup1 = tbInputText.Text.ToString();
-                    dataContext.SubmitChanges();
-                    Load();
-                    tbInputText.Text = "";
-                }
-                else if (comboBoxItemMainDishes.IsSelected)
-                {
-                    MainDishe dishes = dataContext.MainDishes.FirstOrDefault(maindish => maindish.ID.Equals(id));
-                    dishes.MainDish = tbInputText.Text.ToString();
-                    dataContext.SubmitChanges();
-                    Load();
-                    tbInputText.Text = "";
-                }
-                else
-                {
-                    Dinner dinner = dataContext.Dinners.FirstOrDefault(dinners => dinners.ID.Equals(id));
-                    dinner.Dinner1 = tbInputText.Text.ToString();
-                    dataContext.SubmitChanges();
-                    Load();
-                    tbInputText.Text = "";
-                }
-            }
-            else MessageBox.Show("A mező nem lehet üres"); tbInputText.Focus();
-        }
-
-        private void btnDeleteDataBaseItem_Click(object sender, RoutedEventArgs e)
-        {
-            DataClassesLINQDataContext dataContext = new DataClassesLINQDataContext();
-            try
-            {
-                if (comboBoxItemSoups.IsSelected)
-                {
-                    var deleteItem = from soup in dataContext.Soups
-                                     where soup.ID == id
-                                     select soup;
-
-                    foreach (var item in deleteItem)
-                    {
-                        dataContext.Soups.DeleteOnSubmit(item);
-                    }
-
-                    dataContext.SubmitChanges();
-
-                    Load();
-                    tbInputText.Text = "";
-                    tbInputText.Focus();
-                }
-                else if (comboBoxItemMainDishes.IsSelected)
-                {
-                    var deleteItem = from MainDishe in dataContext.MainDishes
-                                     where MainDishe.ID == id
-                                     select MainDishe;
-
-                    foreach (var item in deleteItem)
-                    {
-                        dataContext.MainDishes.DeleteOnSubmit(item);
-                    }
-
-                    dataContext.SubmitChanges();
-
-                    Load();
-                    tbInputText.Text = "";
-                    tbInputText.Focus();
-                }
-                else
-                {
-                    var deleteItem = from Dinner in dataContext.Dinners
-                                     where Dinner.ID == id
-                                     select Dinner;
-
-                    foreach (var item in deleteItem)
-                    {
-                        dataContext.Dinners.DeleteOnSubmit(item);
-                    }
-
-                    dataContext.SubmitChanges();
-
-                    Load();
-                    tbInputText.Text = "";
-                    tbInputText.Focus();
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Hiba a törlés során!");
-            }
+            else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();
+            
             
         }
+        private void BTN_ModifyDataBase_Click(object sender, RoutedEventArgs e) // Meglévő ételek és linkek módosítása
+        {   
+            if (tbInputText.Text != string.Empty & tbLinkText.Text != string.Empty)
+            {
+                DataBaseHandler dataBaseHandler= new DataBaseHandler();
+                dataBaseHandler.ModifyDatabase(tbInputText,tbLinkText, comboBoxItemSoups, comboBoxItemMainDishes, dgList, id);
 
-        private void dgList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+                id = null; //ID beállítása, hogy nullázódjon. Különben megjegyzi és mást törölhet, mint amit szereznénk.
+            }
+            else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();
+        }
+        private void BTN_DeleteDataBaseItem_Click(object sender, RoutedEventArgs e) // Ételek és linkjei törlése
+        {
+            if (tbInputText.Text != string.Empty & tbLinkText.Text!= string.Empty)
+            {
+                DataBaseHandler dataBaseHandler = new DataBaseHandler();
+                dataBaseHandler.DeleteFromDatabase(tbInputText, tbLinkText, comboBoxItemSoups, comboBoxItemMainDishes, dgList, id);
+
+                id = null; //ID beállítása, hogy nullázódjon. Különben megjegyzi és mást törölhet, mint amit szereznénk.
+            }
+            else MessageBox.Show("Az étel és a link mező nem lehet üres"); tbInputText.Focus();  
+        }
+        #endregion
+
+        #region Datagrid kezelése
+        private void DG_List_Loaded(object sender, RoutedEventArgs e) // DataGrid betöltése az adatbázisból
+        {
+            DataBaseHandler dataBaseHandler = new DataBaseHandler();
+            dataBaseHandler.Load(dgList, comboBoxItemSoups, comboBoxItemMainDishes, tbInputText, tbLinkText);
+        }
+        private void DG_List_SelectionChanged(object sender, SelectionChangedEventArgs e) // DataGrid kijelölésének dinamikus vezérlése és megjelenítése
         {
             if (dgList.SelectedItem != null)
             {
@@ -190,55 +68,29 @@ namespace WhatShouldICook
                 {
                     id = ((dynamic)dgList.SelectedItem).ID;
                     tbInputText.Text = ((dynamic)dgList.SelectedItem).Soup1;
+                    tbLinkText.Text = ((dynamic)dgList.SelectedItem).Link;
                 }
                 else if (comboBoxItemMainDishes.IsSelected)
                 {
                     id = ((dynamic)dgList.SelectedItem).ID;
                     tbInputText.Text = ((dynamic)dgList.SelectedItem).MainDish;
+                    tbLinkText.Text = ((dynamic)dgList.SelectedItem).Link;
                 }
                 else
                 {
                     id = ((dynamic)dgList.SelectedItem).ID;
                     tbInputText.Text = ((dynamic)dgList.SelectedItem).Dinner1;
+                    tbLinkText.Text = ((dynamic)dgList.SelectedItem).Link;
                 }
             }
         }
+        #endregion
 
-        void Load()
+        private void Window_Closed(object sender, EventArgs e) // Visszalépés a főablakra. 
         {
-            try
-            {
-                DataClassesLINQDataContext dataContext = new DataClassesLINQDataContext();
-
-                if (comboBoxItemSoups.IsSelected)
-                {
-                    var SeleceAll =
-                        from all in dataContext.GetTable<Soup>()
-                        select all;
-
-                    dgList.ItemsSource = SeleceAll;
-                }
-                else if (comboBoxItemMainDishes.IsSelected)
-                {
-                    var SeleceAll =
-                        from all in dataContext.GetTable<MainDishe>()
-                        select all;
-
-                    dgList.ItemsSource = SeleceAll;
-                }
-                else
-                {
-                    var SeleceAll =
-                        from all in dataContext.GetTable<Dinner>()
-                        select all;
-
-                    dgList.ItemsSource = SeleceAll;
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Nem sikerült kapcsolódni az adatbázishoz!");
-            }
+            WhatShouldICookWindow whatShouldICookWindow = new WhatShouldICookWindow();
+            whatShouldICookWindow.Show();
+            this.Close();
         }
     }
 }

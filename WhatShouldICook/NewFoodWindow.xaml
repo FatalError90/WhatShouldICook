@@ -11,7 +11,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="1" x:Name="dgList" FontSize="15" Loaded="dgList_Loaded" SelectionMode="Single" IsReadOnly="True" SelectionChanged="dgList_SelectionChanged"/>
+        <DataGrid Grid.Column="1" x:Name="dgList" FontSize="15" Loaded="DG_List_Loaded" SelectionMode="Single" IsReadOnly="True" SelectionChanged="DG_List_SelectionChanged"/>
         <StackPanel Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -20,22 +20,27 @@
                 </Grid.RowDefinitions>
             </Grid>
             <ComboBox Grid.Row="1" Grid.Column="0" Margin="5" Padding="5" Width="100" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontFamily="monotype corsiva" FontSize="15">
-                <ComboBoxItem Content="levesek" IsSelected="True"  x:Name="comboBoxItemSoups" Selected="dgList_Loaded"/>
-                <ComboBoxItem Content="második" x:Name="comboBoxItemMainDishes" Selected="dgList_Loaded"/>
-                <ComboBoxItem Content="vacsi"  x:Name="comboBoxItemDinners" Selected="dgList_Loaded"/>
+                <ComboBoxItem Content="levesek" IsSelected="True"  x:Name="comboBoxItemSoups" Selected="DG_List_Loaded"/>
+                <ComboBoxItem Content="második" x:Name="comboBoxItemMainDishes" Selected="DG_List_Loaded"/>
+                <ComboBoxItem Content="vacsi"  x:Name="comboBoxItemDinners" Selected="DG_List_Loaded"/>
             </ComboBox>
-            <TextBox Height="20" Width="150" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 90 0 15" x:Name="tbInputText"/>
+            <Grid>
+                <Label Content="Étel:" Height="30" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 50 0 20" FontWeight="Bold"/>
+                <TextBox Height="20" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 50 10 15" x:Name="tbInputText"/>
+                <Label Content="Link:" Height="30" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10 125 0 20" FontWeight="Bold" />
+                <TextBox Height="20" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0 125 10 15" x:Name="tbLinkText"/>
+            </Grid>
+
             <DockPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 50 0 0">
                 <DockPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="Margin" Value="15 0 0 0"/>
                     </Style>
                 </DockPanel.Resources>
-                <Button Content="Mentés" Width="70" Height="40" x:Name="btnUpdateDataBase" Click="btnUpdateDataBase_Click" />
-                <Button Content="Módosítás" Width="70" Height="40" x:Name="btnModifyDataBase" Click="btnModifyDataBase_Click"/>
-                <Button Content="Törlés" Width="70" Height="40" x:Name="btnDeleteDataBaseItem" Click="btnDeleteDataBaseItem_Click"/>
+                <Button Content="Mentés" Width="70" Height="40" x:Name="btnUpdateDataBase" Click="BTN_UpdateDataBase_Click" />
+                <Button Content="Módosítás" Width="70" Height="40" x:Name="btnModifyDataBase" Click="BTN_ModifyDataBase_Click"/>
+                <Button Content="Törlés" Width="70" Height="40" x:Name="btnDeleteDataBaseItem" Click="BTN_DeleteDataBaseItem_Click"/>
             </DockPanel>
         </StackPanel>
-        
     </Grid>
 </Window>

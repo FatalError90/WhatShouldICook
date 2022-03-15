@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
+using System.Windows.Documents;
+
+
 
 namespace WhatShouldICook
 {
@@ -17,134 +20,151 @@ namespace WhatShouldICook
             InitializeComponent();
         }
 
-        private void btnWhatShouldICook_Click(object sender, RoutedEventArgs e)
+        #region Gombok hívása
+        private void BTN_WhatShouldICook_Click(object sender, RoutedEventArgs e) //Az ételek kisorsolása és megjelnítése a szövegdobozokban
         {
-            List<string> soups = WhatShouldICook(Soups(), 3);
-            List<string> mainDishes = WhatShouldICook(MainDishes(), 3);
-            List<string> dinners = WhatShouldICook(Dinners(), 6);
+            DataBaseHandler dbHandler = new DataBaseHandler();
 
-            ShowData(lbSoup1, soups, 0);
-            ShowData(lbSoup2, soups, 1);
-            ShowData(lbSoup3, soups, 2);
+            List<string> soups = dbHandler.Soups();
+            List<string> linkOfSoups = dbHandler.LinksOfSoups();
 
-            ShowData(lbMainDish1, mainDishes, 0);
-            ShowData(lbMainDish2, mainDishes, 1);
-            ShowData(lbMainDish3, mainDishes, 2);
+            List<string> mainDishes = dbHandler.MainDishes();
+            List<string> linkOfMainDishes = dbHandler.LinksOfMainDishes();
 
-            ShowData(lbDinner1, dinners, 0);
-            ShowData(lbDinner2, dinners, 1);
-            ShowData(lbDinner3, dinners, 2);
-            ShowData(lbDinner4, dinners, 3);
-            ShowData(lbDinner5, dinners, 4);
-            ShowData(lbDinner6, dinners, 5);
+            List<string> dinners = dbHandler.Dinners();
+            List<string> linkOfDinners = dbHandler.LinksOfDinners();
+
+            WhatSoupShouldICook(soups, linkOfSoups, 3);
+            WhatLunchShouldICook(mainDishes, linkOfMainDishes, 3);
+            WhatDinnerShouldICook(dinners, linkOfDinners, 6);
 
         }
-
-        private void btnNewFoods_Click(object sender, RoutedEventArgs e)
+        private void BTN_NewFoods_Click(object sender, RoutedEventArgs e) //Az új ételek ablak megjelnítése
         {
             NewFoodWindow newFoodWindow = new NewFoodWindow();
             newFoodWindow.Show();
             this.Hide();
         }
-
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        private void BTN_Print_Click(object sender, RoutedEventArgs e) //A főoldal kinyomtatása
         {
-            Print();
-        }
+            PrintDialog printDialog = new PrintDialog();
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            Environment.Exit(0);
+            if (printDialog.ShowDialog().GetValueOrDefault(false))
+            {
+                printDialog.PrintVisual(this, this.Title);
+            }
+            else MessageBox.Show("Nem sikerült a nyomtatás");
         }
+        #endregion
 
-        void ShowData(Label label, List<string> list, int indexOfList)
-        {
-            label.Content = list[indexOfList];
-        }
-
-        List<string> WhatShouldICook(List<string> list, int howMany)
+        #region Függvények
+        private void WhatSoupShouldICook(List<string> ListOfSoups, List<string> listOfSoupLinks, int howMany) //Levesek és linkjeinek a kisorsolása.
         {
             Random rnd = new Random();
 
-            List<string> listOfMeals = new List<string>();
+            List<string> listOfRaffleSoups = new List<string>();
+            List<string> listOfRaffleSoupsLinks = new List<string>();
+
+            int index = 0;
+            //Levesek ismétlődés nélküli kisorsolása.
+            while (index != howMany)
+            {
+                int indexOfItem = rnd.Next(0, ListOfSoups.Count);
+                string raffleSoups = ListOfSoups[indexOfItem];
+                string link = listOfSoupLinks[indexOfItem];
+
+                if (!listOfRaffleSoups.Contains(raffleSoups))
+                {
+                    listOfRaffleSoups.Add(raffleSoups);
+                    listOfRaffleSoupsLinks.Add(link);
+                    index++;
+                }
+            }
+            //A kisorsolt levesek és linkjeinek a megjelenítése.
+            ShowData(lbSoup1, hyperlinkSoup1, listOfRaffleSoups, listOfRaffleSoupsLinks, 0);
+            ShowData(lbSoup2, hyperlinkSoup2, listOfRaffleSoups, listOfRaffleSoupsLinks, 1);
+            ShowData(lbSoup3, hyperlinkSoup3, listOfRaffleSoups, listOfRaffleSoupsLinks, 2);
+        }
+        private void WhatLunchShouldICook(List<string> ListOfDinners, List<string> listOfDinnersLinks, int howMany) //Második és linkjeinek a kisorsoláa
+        {
+            Random rnd = new Random();
+
+            List<string> listOfRaffleDinners = new List<string>();
+            List<string> listOfRaffleDinnersLinks = new List<string>();
 
             int index = 0;
 
             while (index != howMany)
             {
-                bool isGood = false;
-                int IndexOfItems = rnd.Next(0, list.Count);
-                string raffleMeal = list[IndexOfItems];
+                int indexOfItem = rnd.Next(0, ListOfDinners.Count);
+                string raffleSoup = ListOfDinners[indexOfItem];
+                string link = listOfDinnersLinks[indexOfItem];
 
-                if (!listOfMeals.Contains(raffleMeal))
+                if (!listOfRaffleDinners.Contains(raffleSoup))
                 {
-                    isGood = true;
-                }
-                else isGood = false;
-
-                if (isGood)
-                {
-                    listOfMeals.Add(raffleMeal);
+                    listOfRaffleDinners.Add(raffleSoup);
+                    listOfRaffleDinnersLinks.Add(link);
                     index++;
                 }
             }
 
-            return listOfMeals;
+            ShowData(lbMainDish1, hyperlinkMainDish1, listOfRaffleDinners, listOfRaffleDinnersLinks, 0);
+            ShowData(lbMainDish2, hyperlinkMainDish2, listOfRaffleDinners, listOfRaffleDinnersLinks, 1);
+            ShowData(lbMainDish3, hyperlinkMainDish3, listOfRaffleDinners, listOfRaffleDinnersLinks, 2);
         }
-
-        void Print()
+        private void WhatDinnerShouldICook(List<string> ListOfDinners, List<string> listOfDinnersLinks, int howMany) //Vacsorák és linkjeinek a kisorsolása
         {
-            PrintDialog printDialog = new PrintDialog();
-            if (printDialog.ShowDialog().GetValueOrDefault(false))
+            Random rnd = new Random();
+
+            List<string> listOfRaffleDinners = new List<string>();
+            List<string> listOfRaffleDinnersLinks = new List<string>();
+
+            int index = 0;
+
+            while (index != howMany)
             {
-                printDialog.PrintVisual(this, this.Title);
+                int indexOfItem = rnd.Next(0, ListOfDinners.Count);
+                string raffleMeal = ListOfDinners[indexOfItem];
+                string link = listOfDinnersLinks[indexOfItem];
+
+                if (!listOfRaffleDinners.Contains(raffleMeal))
+                {
+                    listOfRaffleDinners.Add(raffleMeal);
+                    listOfRaffleDinnersLinks.Add(link);
+                    index++;
+                }
             }
+
+            ShowData(lbDinner1, hyperlinkDinner1, listOfRaffleDinners, listOfRaffleDinnersLinks, 0);
+            ShowData(lbDinner2, hyperlinkDinner2, listOfRaffleDinners, listOfRaffleDinnersLinks, 1);
+            ShowData(lbDinner3, hyperlinkDinner3, listOfRaffleDinners, listOfRaffleDinnersLinks, 2);
+            ShowData(lbDinner4, hyperlinkDinner4, listOfRaffleDinners, listOfRaffleDinnersLinks, 3);
+            ShowData(lbDinner5, hyperlinkDinner5, listOfRaffleDinners, listOfRaffleDinnersLinks, 4);
+            ShowData(lbDinner6, hyperlinkDinner6, listOfRaffleDinners, listOfRaffleDinnersLinks, 5);
         }
-
-        #region DB kiolvasás
-        public static List<string> Soups()
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e) //Linkek kattinthatóvá tétele 
         {
-
-            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
-
-            List<string> soupsList = (from item in dc.Soups
-                                      select item.Soup1.ToString()).ToList();
-
-            return soupsList;
-        }
-
-        public static List<string> MainDishes()
-        {
-
-            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
-
-            List<string> mainDishesList = (from item in dc.MainDishes
-                                           select item.MainDish.ToString()).ToList();
-
-            return mainDishesList;
-        }
-
-        public static List<string> Dinners()
-        {
-
-            DataClassesLINQDataContext dc = new DataClassesLINQDataContext();
-
             try
             {
-                List<string> dinnersList = (from item in dc.Dinners
-                                            select item.Dinner1.ToString()).ToList();
-
-                return dinnersList;
+                Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+                e.Handled = true;
             }
             catch (Exception)
             {
-
-                MessageBox.Show("Hiba a vacsorák kiolvasása során");
-                return null;
+                MessageBox.Show("Nem sikerült betölteni a linket");
             }
 
         }
-
+        private void Window_Closed(object sender, EventArgs e) // Kilépés az alkalmazásból 
+        {
+            Environment.Exit(0);
+        }
+        private void ShowData(Label label, Hyperlink link, List<string> listOfFoods, List<string> listOfLinks, int indexOfList) // Kisorsolt ételek és a hozzá tartozó linkek kiiratása
+        {
+            label.Content = listOfFoods[indexOfList];
+            link.NavigateUri = new Uri(listOfLinks[indexOfList]);
+        }
         #endregion
+
     }
 }

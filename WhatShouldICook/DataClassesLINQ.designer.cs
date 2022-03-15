@@ -33,12 +33,12 @@ namespace WhatShouldICook
     partial void InsertDinner(Dinner instance);
     partial void UpdateDinner(Dinner instance);
     partial void DeleteDinner(Dinner instance);
-    partial void InsertMainDishe(MainDishe instance);
-    partial void UpdateMainDishe(MainDishe instance);
-    partial void DeleteMainDishe(MainDishe instance);
     partial void InsertSoup(Soup instance);
     partial void UpdateSoup(Soup instance);
     partial void DeleteSoup(Soup instance);
+    partial void InsertMainDishe(MainDishe instance);
+    partial void UpdateMainDishe(MainDishe instance);
+    partial void DeleteMainDishe(MainDishe instance);
     #endregion
 		
 		public DataClassesLINQDataContext() : 
@@ -79,19 +79,19 @@ namespace WhatShouldICook
 			}
 		}
 		
-		public System.Data.Linq.Table<MainDishe> MainDishes
-		{
-			get
-			{
-				return this.GetTable<MainDishe>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Soup> Soups
 		{
 			get
 			{
 				return this.GetTable<Soup>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MainDishe> MainDishes
+		{
+			get
+			{
+				return this.GetTable<MainDishe>();
 			}
 		}
 	}
@@ -106,6 +106,8 @@ namespace WhatShouldICook
 		
 		private string _Dinner1;
 		
+		private string _Link;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -114,6 +116,8 @@ namespace WhatShouldICook
     partial void OnIDChanged();
     partial void OnDinner1Changing(string value);
     partial void OnDinner1Changed();
+    partial void OnLinkChanging(string value);
+    partial void OnLinkChanged();
     #endregion
 		
 		public Dinner()
@@ -161,6 +165,136 @@ namespace WhatShouldICook
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Link", DbType="NVarChar(50)")]
+		public string Link
+		{
+			get
+			{
+				return this._Link;
+			}
+			set
+			{
+				if ((this._Link != value))
+				{
+					this.OnLinkChanging(value);
+					this.SendPropertyChanging();
+					this._Link = value;
+					this.SendPropertyChanged("Link");
+					this.OnLinkChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Soups")]
+	public partial class Soup : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Soup1;
+		
+		private string _Link;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnSoup1Changing(string value);
+    partial void OnSoup1Changed();
+    partial void OnLinkChanging(string value);
+    partial void OnLinkChanged();
+    #endregion
+		
+		public Soup()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Soup", Storage="_Soup1", DbType="VarChar(50)")]
+		public string Soup1
+		{
+			get
+			{
+				return this._Soup1;
+			}
+			set
+			{
+				if ((this._Soup1 != value))
+				{
+					this.OnSoup1Changing(value);
+					this.SendPropertyChanging();
+					this._Soup1 = value;
+					this.SendPropertyChanged("Soup1");
+					this.OnSoup1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Link", DbType="NVarChar(MAX)")]
+		public string Link
+		{
+			get
+			{
+				return this._Link;
+			}
+			set
+			{
+				if ((this._Link != value))
+				{
+					this.OnLinkChanging(value);
+					this.SendPropertyChanging();
+					this._Link = value;
+					this.SendPropertyChanged("Link");
+					this.OnLinkChanged();
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -192,6 +326,8 @@ namespace WhatShouldICook
 		
 		private string _MainDish;
 		
+		private string _Link;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -200,6 +336,8 @@ namespace WhatShouldICook
     partial void OnIDChanged();
     partial void OnMainDishChanging(string value);
     partial void OnMainDishChanged();
+    partial void OnLinkChanging(string value);
+    partial void OnLinkChanged();
     #endregion
 		
 		public MainDishe()
@@ -247,88 +385,22 @@ namespace WhatShouldICook
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Soups")]
-	public partial class Soup : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Soup1;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnSoup1Changing(string value);
-    partial void OnSoup1Changed();
-    #endregion
-		
-		public Soup()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Link", DbType="NVarChar(MAX)")]
+		public string Link
 		{
 			get
 			{
-				return this._ID;
+				return this._Link;
 			}
 			set
 			{
-				if ((this._ID != value))
+				if ((this._Link != value))
 				{
-					this.OnIDChanging(value);
+					this.OnLinkChanging(value);
 					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Soup", Storage="_Soup1", DbType="VarChar(50)")]
-		public string Soup1
-		{
-			get
-			{
-				return this._Soup1;
-			}
-			set
-			{
-				if ((this._Soup1 != value))
-				{
-					this.OnSoup1Changing(value);
-					this.SendPropertyChanging();
-					this._Soup1 = value;
-					this.SendPropertyChanged("Soup1");
-					this.OnSoup1Changed();
+					this._Link = value;
+					this.SendPropertyChanged("Link");
+					this.OnLinkChanged();
 				}
 			}
 		}
